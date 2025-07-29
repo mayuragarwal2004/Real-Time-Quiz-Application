@@ -1,6 +1,8 @@
-import eventlet
+
+# No eventlet
+# import eventlet
 # Force eventlet to be used as the async mode for Flask-SocketIO
-eventlet.monkey_patch()
+# eventlet.monkey_patch()
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import backend  # Import backend functions
@@ -11,10 +13,10 @@ import random
 import logging
 
 # Configure the logging level
-logging.getLogger('eventlet.wsgi.server').setLevel(logging.ERROR)
+# logging.getLogger('eventlet.wsgi.server').setLevel(logging.ERROR)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-socketio = SocketIO(app, async_mode='eventlet')
+socketio = SocketIO(app, async_mode='threading')
 
 exams = backend.load_question_sets()  # Load available exams
 selected_questions = []  # Global variable to store the selected questions
@@ -156,6 +158,6 @@ def reset_quiz():
     for participant in participants.values():
         participant["score"] = 0
 
-if __name__ == '__main__':
-    print("Starting Real-Time Quiz Application...")
-    socketio.run(app, host='0.0.0.0', port=7860, debug=False)
+# if __name__ == '__main__':
+#     print("Starting Real-Time Quiz Application...")
+#     socketio.run(app, host='0.0.0.0', port=7860, debug=False)

@@ -1,4 +1,6 @@
-const socket = io();
+const socket = io({
+  transports: ['polling']
+});
 let username;
 
 function joinQuiz() {
